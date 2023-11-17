@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Diagrama de Gantt</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.css">
+</head>
+
+<body>
+	<div>
+		<label for="nombreTarea">Nombre de la Tarea:</label>
+		<input type="text" id="nombreTarea">
+
+		<label for="inicioTarea">Inicio:</label>
+		<input type="date" id="inicioTarea">
+
+		<label for="duracionTarea">Duración (días):</label>
+		<input type="number" id="duracionTarea">
+
+		<label for="dependencias">Dependencias:</label>
+		<input type="text" id="dependencias">
+
+		<button id="agregarTareaBtn">Agregar Tarea</button>
+	</div>
+
+	<div>
+		<label for="nombreTarea">Nombre de la Tarea:</label>
+		<input type="text" id="nombreTareaEliminar">
+
+		<button id="Eliminar">Eliminar Tarea</button>
+	</div>
+
+	<div id="gantt"></div>
+
+	<script src="https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const ganttData = [];
+
+			function agregarTarea() {
+				const nombre = document.getElementById('nombreTarea').value;
+				const inicio = document.getElementById('inicioTarea').value;
+				const dependencias = document.getElementById('dependencias').value;
+				const duracion = parseInt(document.getElementById('duracionTarea').value, 10);
+
+				if (!nombre || !inicio || isNaN(duracion) || !dependencias) {
+					alert('Por favor, complete todos los campos correctamente.');
+					return;
+				}
+
+				const tarea = {
+					id: nombre,
+					name: nombre,
+					start: inicio,
+					end: agregarDias(inicio, duracion),
+					progress: 0,
+					dependencies: dependencias,
+				};
+
+				console.log(ganttData)
+
+				ganttData.push(tarea);
+				gantt.refresh(ganttData);
+			}
+
+			function eliminarTarea() {
+				const nombre = document.getElementById('nombreTareaEliminar').value;
+				
+
+				if (!nombre) {
+					alert('Por favor, complete todos los campos correctamente.');
+					return;
+				}
+
+				let index = ganttData.findIndex(elem => elem.id == nombre);
+
+				console.log(index)
+
+				ganttData.splice(index);
+				console.log(ganttData)
+				gantt.refresh(ganttData);
+			}
+
+			function agregarDias(fecha, dias) {
+				var nuevaFecha = new Date(fecha);
+				nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+				return nuevaFecha;
+			}
+
+			var tasks = [
+				{
+					id: 'Task 1',
+					name: 'Redesign website',
+					start: '2016-12-28',
+					end: '2016-12-31',
+					progress: 20,
+					dependencies: 'Task 2, Task 3'
+				}
+			]
+			var gantt = new Gantt("#gantt", tasks);
+
+			document.getElementById('agregarTareaBtn').addEventListener('click', agregarTarea);
+			document.getElementById('Eliminar').addEventListener('click', eliminarTarea);
+		});
+	</script>
+</body>
+
+</html>
