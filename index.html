@@ -78,7 +78,16 @@
 
 				console.log(index)
 
-				ganttData.splice(index);
+				ganttData.splice(index, 1);
+				if (ganttData.length == 0) {
+					ganttData.push({
+					id: 'Task 1',
+					name: 'INGRESE UNA TAREA',
+					start: '2016-12-28',
+					end: '2016-12-31',
+					dependencies: 'Task 2, Task 3'
+					})
+				}
 				console.log(ganttData)
 				gantt.refresh(ganttData);
 			}
@@ -92,10 +101,9 @@
 			var tasks = [
 				{
 					id: 'Task 1',
-					name: 'Redesign website',
+					name: 'INGRESE UNA TAREA',
 					start: '2016-12-28',
 					end: '2016-12-31',
-					progress: 20,
 					dependencies: 'Task 2, Task 3'
 				}
 			]
