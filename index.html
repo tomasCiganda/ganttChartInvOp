@@ -91,10 +91,10 @@
 			function agregarTarea() {
 				const nombre = document.getElementById('nombreTarea').value;
 				const inicio = document.getElementById('inicioTarea').value;
-				const dependencias = document.getElementById('dependencias').value;
+				const dependencias = document.getElementById('dependencias').value ?? ' ';
 				const duracion = parseInt(document.getElementById('duracionTarea').value, 10);
 
-				if (!nombre || !inicio || isNaN(duracion) || !dependencias) {
+				if (!nombre || !inicio || isNaN(duracion)) {
 					alert('Por favor, complete todos los campos correctamente.');
 					return;
 				}
@@ -110,8 +110,7 @@
 
 				
 				if (ganttData[0].name == 'INGRESE UNA TAREA') {
-					let index = ganttData.findIndex(elem => elem.id == nombre);
-					ganttData.splice(index, 1);	
+					ganttData.splice(0, 1);	
 				}
 				
 				ganttData.push(tarea);
